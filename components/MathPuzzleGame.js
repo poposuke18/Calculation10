@@ -214,8 +214,8 @@ const MathPuzzleGame = () => {
           } : {}}
         >
           {expression || (
-            <span className="text-slate-400 font-size: 10px">
-              Make 10 using numbers and parentheses.
+            <span className="text-slate-400">
+              Make 10 using all numbers.
             </span>
           )}
         </motion.div>
