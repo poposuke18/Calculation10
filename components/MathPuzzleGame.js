@@ -128,15 +128,15 @@ const MathPuzzleGame = () => {
     <Card className="w-full max-w-md">
       {/* ヘッダー部分 */}
       <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold mb-3 text-slate-800">10を作ろう！</h1>
+        <h1 className="text-3xl font-bold mb-3 text-slate-800">CALCULATE 10！</h1>
         <p className="text-sm text-slate-600 mb-4">
-          4つの数字をすべて使って、10を作ってください
+        Make 10 using all four numbers.
         </p>
         
         {/* スコアとタイマーの表示を改善 */}
         <div className="grid grid-cols-3 gap-4 p-4 bg-slate-50 rounded-lg">
           <div className="text-center">
-            <p className="text-sm text-slate-600">スコア</p>
+            <p className="text-sm text-slate-600">SCORE</p>
             <motion.p 
               key={score}
               initial={{ scale: 1.5 }}
@@ -148,7 +148,7 @@ const MathPuzzleGame = () => {
           </div>
           
           <div className="text-center">
-            <p className="text-sm text-slate-600">タイム</p>
+            <p className="text-sm text-slate-600">TIME</p>
             <motion.div
               className={`text-2xl font-bold ${
                 timeLeft <= 10 ? 'text-red-500' : 'text-slate-700'
@@ -186,13 +186,13 @@ const MathPuzzleGame = () => {
             className="text-center mb-6"
           >
             <div className="bg-slate-800 text-white p-6 rounded-lg mb-4">
-              <h2 className="text-2xl font-bold mb-2">ゲームオーバー！</h2>
+              <h2 className="text-2xl font-bold mb-2">GAME OVER！</h2>
               <p className="text-3xl font-bold text-yellow-400 mb-4">{score} 点</p>
               <Button
                 className="bg-green-500 w-full"
                 onClick={handleRestart}
               >
-                もう一度プレイ
+                RETRY
               </Button>
             </div>
           </motion.div>
@@ -215,7 +215,7 @@ const MathPuzzleGame = () => {
         >
           {expression || (
             <span className="text-slate-400">
-              数字とかっこを使って10を作ってください
+              Make 10 using numbers and parentheses.
             </span>
           )}
         </motion.div>
@@ -286,20 +286,20 @@ const MathPuzzleGame = () => {
           className="bg-red-500 hover:bg-red-600 w-full"
           onClick={handleClear}
         >
-          クリア
+          CLEAR
         </Button>
         <Button
           className="bg-yellow-500 hover:bg-yellow-600 w-full"
           onClick={handleSkip}
         >
-          スキップ (-5秒)
+          SKIP (-5s)
         </Button>
         <Button
           className="bg-blue-500 hover:bg-blue-600 w-full"
           onClick={handleCalculate}
           disabled={!expression}
         >
-          計算する
+          CALCULATE
         </Button>
       </div>
     </Card>
