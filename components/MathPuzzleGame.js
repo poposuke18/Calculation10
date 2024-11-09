@@ -128,7 +128,7 @@ const MathPuzzleGame = () => {
     <Card className="w-full max-w-md">
       {/* ヘッダー部分 */}
       <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold mb-3 text-slate-800">CALCULATE 10！</h1>
+        <h1 className="text-3xl font-bold mb-3 text-slate-800">CALCULATION 10！</h1>
         <p className="text-sm text-slate-600 mb-4">
         Make 10 using all four numbers.
         </p>
@@ -163,7 +163,7 @@ const MathPuzzleGame = () => {
           </div>
 
           <div className="text-center">
-            <p className="text-sm text-slate-600">スキップ</p>
+            <p className="text-sm text-slate-600">SKIP</p>
             <motion.p 
               key={skippedCount}
               initial={{ scale: 1.2 }}
@@ -187,7 +187,7 @@ const MathPuzzleGame = () => {
           >
             <div className="bg-slate-800 text-white p-6 rounded-lg mb-4">
               <h2 className="text-2xl font-bold mb-2">GAME OVER！</h2>
-              <p className="text-3xl font-bold text-yellow-400 mb-4">{score} 点</p>
+              <p className="text-3xl font-bold text-yellow-400 mb-4">{score} SCORE</p>
               <Button
                 className="bg-green-500 w-full"
                 onClick={handleRestart}
@@ -201,7 +201,7 @@ const MathPuzzleGame = () => {
 
       {/* 式を表示するエリア */}
       <div className="mb-6">
-        <p className="text-lg font-semibold mb-2 text-slate-700">式:</p>
+        <p className="text-lg font-semibold mb-2 text-slate-700">Formula:</p>
         <motion.div 
           className={`h-14 rounded-lg flex items-center justify-center text-xl font-mono border-2 transition-colors duration-300 ${
             isCorrect 
@@ -214,7 +214,7 @@ const MathPuzzleGame = () => {
           } : {}}
         >
           {expression || (
-            <span className="text-slate-400">
+            <span className="text-slate-400 font-size: 10px">
               Make 10 using numbers and parentheses.
             </span>
           )}
