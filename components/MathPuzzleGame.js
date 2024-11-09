@@ -14,7 +14,7 @@ const MathPuzzleGame = () => {
   const [error, setError] = useState('');
   const [isCorrect, setIsCorrect] = useState(false);
   const [skippedCount, setSkippedCount] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(60); // 60秒
+  const [timeLeft, setTimeLeft] = useState(90);
   const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
@@ -38,14 +38,12 @@ const MathPuzzleGame = () => {
 
   // リスタート機能
   const handleRestart = () => {
-    setTimeLeft(60);
+    setTimeLeft(90);  // 90秒からスタート
     setScore(0);
     setSkippedCount(0);
     setIsPlaying(true);
     generateNumbers();
   };
-
-
 
   const generateNumbers = () => {
     const newNumbers = Array(4)
@@ -84,7 +82,8 @@ const MathPuzzleGame = () => {
 
   const handleSkip = () => {
     setSkippedCount(prev => prev + 1);
-    generateNumbers(); // generateNumbers内でタイマーもリセットされます
+    setTimeLeft(prev => Math.max(0, prev - 5)); // 5秒減少（ただし0秒未満にはならない）
+    generateNumbers();
   };
 
   const handleClear = () => {
@@ -113,9 +112,10 @@ const MathPuzzleGame = () => {
       setScore(prev => prev + 1);
       setIsCorrect(true);
       setError('');
-      // 正解時にボーナス時間を追加（最大60秒）
-      setTimeLeft(60);
+      // 正解時に10秒追加
+      setTimeLeft(prev => prev + 10);
       setTimeout(() => {
+        setIsCorrect(false);
         generateNumbers();
       }, 1500);
     } else {

@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 10を作ろう！(Make 10 Puzzle)
 
-## Getting Started
+## 🎮 ゲーム概要
 
-First, run the development server:
+4つの数字と四則演算を使って10を作る数学パズルゲームです。
+制限時間内にできるだけ多くの問題を解いていくチャレンジゲームとなっています。
+
+## 🕹️ 遊び方
+
+1. ゲーム開始時に90秒の制限時間が与えられます
+2. 表示される4つの数字をすべて使って、10を作ってください
+3. 使える演算子は `+`, `-`, `×`, `÷` と括弧 `()` です
+4. 正解すると:
+   - スコアが1点加算されます
+   - 制限時間が10秒延長されます
+5. スキップすると:
+   - 新しい数字が表示されます
+   - 制限時間が5秒減少します
+6. 制限時間が0になるとゲームオーバーです
+
+## 🚀 ルール詳細
+
+- すべての数字を必ず1回ずつ使う必要があります
+- 同じ数字を複数回使用することはできません
+- 0で割ることはできません
+- 数字の前に不必要な0を付けることはできません（例：01は不正）
+
+## 🛠️ 技術スタック
+
+- Next.js
+- React
+- Tailwind CSS
+- Framer Motion
+
+## 🌐 デプロイ
+
+このゲームは[Vercel](https://calculation10.vercel.app)でホストされています。
+
+## 🧑‍💻 開発者向け情報
+
+### ローカルでの実行方法
 
 ```bash
+# リポジトリのクローン
+git clone https://github.com/poposuke18/Calculation10.git
+
+# 依存関係のインストール
+npm install
+
+# 開発サーバーの起動
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### コントリビューション
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+バグ報告や機能改善の提案は、GitHubのIssueやPull Requestsで受け付けています。
