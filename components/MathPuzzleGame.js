@@ -2,9 +2,11 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Button from './Button';
 import Card from './Card';
 import { evaluateExpression, extractNumbersFromExpression, areArraysEqual } from '../lib/mathUtils';
+
 
 const MathPuzzleGame = () => {
   const [numbers, setNumbers] = useState([]);
@@ -124,106 +126,181 @@ const MathPuzzleGame = () => {
 
   return (
     <Card className="w-full max-w-md">
-      <div className="text-center mb-4">
-        <h1 className="text-2xl font-bold mb-2">10を作ろう！</h1>
-        <p className="text-sm text-gray-600 mb-2">
+      {/* ヘッダー部分 */}
+      <div className="text-center mb-6">
+        <h1 className="text-3xl font-bold mb-3 text-slate-800">10を作ろう！</h1>
+        <p className="text-sm text-slate-600 mb-4">
           4つの数字をすべて使って、10を作ってください
         </p>
-        <div className="flex justify-between px-4 items-center">
-        <div>
-          <p className="text-gray-600">スコア: {score}</p>
-          <p className="text-gray-600">スキップ: {skippedCount}</p>
-        </div>
-        <div className={`text-xl font-bold ${timeLeft <= 10 ? 'text-red-500' : 'text-gray-600'}`}>
-          {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+        
+        {/* スコアとタイマーの表示を改善 */}
+        <div className="grid grid-cols-3 gap-4 p-4 bg-slate-50 rounded-lg">
+          <div className="text-center">
+            <p className="text-sm text-slate-600">スコア</p>
+            <motion.p 
+              key={score}
+              initial={{ scale: 1.5 }}
+              animate={{ scale: 1 }}
+              className="text-2xl font-bold text-blue-600"
+            >
+              {score}
+            </motion.p>
+          </div>
+          
+          <div className="text-center">
+            <p className="text-sm text-slate-600">タイム</p>
+            <motion.div
+              className={`text-2xl font-bold ${
+                timeLeft <= 10 ? 'text-red-500' : 'text-slate-700'
+              }`}
+              animate={timeLeft <= 10 ? {
+                scale: [1, 1.1, 1],
+                transition: { repeat: Infinity, duration: 1 }
+              } : {}}
+            >
+              {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+            </motion.div>
+          </div>
+
+          <div className="text-center">
+            <p className="text-sm text-slate-600">スキップ</p>
+            <motion.p 
+              key={skippedCount}
+              initial={{ scale: 1.2 }}
+              animate={{ scale: 1 }}
+              className="text-2xl font-bold text-yellow-600"
+            >
+              {skippedCount}
+            </motion.p>
+          </div>
         </div>
       </div>
-     </div>
 
-     {!isPlaying && (
-        <Button
-          className="bg-green-500 mt-4"
-          onClick={handleRestart}
-        >
-          もう一度プレイ
-        </Button>
-      )}
+      {/* ゲームオーバー時の表示 */}
+      <AnimatePresence>
+        {!isPlaying && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="text-center mb-6"
+          >
+            <div className="bg-slate-800 text-white p-6 rounded-lg mb-4">
+              <h2 className="text-2xl font-bold mb-2">ゲームオーバー！</h2>
+              <p className="text-3xl font-bold text-yellow-400 mb-4">{score} 点</p>
+              <Button
+                className="bg-green-500 w-full"
+                onClick={handleRestart}
+              >
+                もう一度プレイ
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 式を表示するエリア */}
       <div className="mb-6">
-        <p className="text-lg font-semibold mb-2">式:</p>
-        <div 
-          className={`h-12 rounded flex items-center justify-center text-xl font-mono border transition-colors duration-300 ${
+        <p className="text-lg font-semibold mb-2 text-slate-700">式:</p>
+        <motion.div 
+          className={`h-14 rounded-lg flex items-center justify-center text-xl font-mono border-2 transition-colors duration-300 ${
             isCorrect 
               ? "bg-green-100 border-green-500 text-green-700" 
-              : "bg-slate-50 border-slate-200 text-slate-900"
+              : "bg-white border-slate-200 text-slate-900"
           }`}
+          animate={isCorrect ? {
+            scale: [1, 1.02, 1],
+            transition: { duration: 0.3 }
+          } : {}}
         >
           {expression || (
-            <span className="text-slate-500">
+            <span className="text-slate-400">
               数字とかっこを使って10を作ってください
             </span>
           )}
-        </div>
-        {error && (
-          <div className="mt-2 text-red-500 text-sm">{error}</div>
-        )}
+        </motion.div>
+        <AnimatePresence>
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="mt-2 text-red-500 text-sm text-center"
+            >
+              {error}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* 数字ボタン */}
-      <div className="grid grid-cols-4 gap-2 mb-6">
+      <div className="grid grid-cols-4 gap-3 mb-6">
         {numbers.map((number, index) => (
-          <Button
+          <motion.div
             key={index}
-            className={`h-14 text-2xl ${
-              usedNumbers.includes(index) ? "bg-blue-300" : "bg-blue-500"
-            }`}
-            onClick={() => handleNumberClick(number, index)}
-            disabled={usedNumbers.includes(index)}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: index * 0.1 }}
           >
-            {number}
-          </Button>
+            <Button
+              className={`h-16 text-2xl w-full ${
+                usedNumbers.includes(index) 
+                  ? "bg-blue-300 hover:bg-blue-300" 
+                  : "bg-blue-500 hover:bg-blue-600"
+              }`}
+              onClick={() => handleNumberClick(number, index)}
+              disabled={usedNumbers.includes(index)}
+            >
+              {number}
+            </Button>
+          </motion.div>
         ))}
       </div>
 
       {/* 演算子ボタン */}
-      <div className="grid grid-cols-3 gap-2 mb-6">
-        {['+', '-', '×', '÷', '(', ')'].map((op) => (
-          <Button
+      <div className="grid grid-cols-3 gap-3 mb-6">
+        {['+', '-', '×', '÷', '(', ')'].map((op, index) => (
+          <motion.div
             key={op}
-            className={
-              ['+', '-', '×', '÷'].includes(op) 
-                ? "bg-green-500" 
-                : "bg-purple-500"
-            }
-            onClick={() => handleOperatorClick(op)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: index * 0.05 }}
           >
-            {op}
-          </Button>
+            <Button
+              className={
+                ['+', '-', '×', '÷'].includes(op) 
+                  ? "bg-green-500 hover:bg-green-600 w-full" 
+                  : "bg-purple-500 hover:bg-purple-600 w-full"
+              }
+              onClick={() => handleOperatorClick(op)}
+            >
+              {op}
+            </Button>
+          </motion.div>
         ))}
       </div>
 
       {/* アクションボタン */}
       <div className="grid grid-cols-3 gap-4">
-  <Button
-    className="bg-red-500"
-    onClick={handleClear}
-  >
-    クリア
-  </Button>
-  <Button
-    className="bg-yellow-500"
-    onClick={handleSkip}
-  >
-    スキップ
-  </Button>
-  <Button
-    className="bg-blue-500"
-    onClick={handleCalculate}
-    disabled={!expression}
-  >
-    計算する
-  </Button>
+        <Button
+          className="bg-red-500 hover:bg-red-600 w-full"
+          onClick={handleClear}
+        >
+          クリア
+        </Button>
+        <Button
+          className="bg-yellow-500 hover:bg-yellow-600 w-full"
+          onClick={handleSkip}
+        >
+          スキップ (-5秒)
+        </Button>
+        <Button
+          className="bg-blue-500 hover:bg-blue-600 w-full"
+          onClick={handleCalculate}
+          disabled={!expression}
+        >
+          計算する
+        </Button>
       </div>
     </Card>
   );
