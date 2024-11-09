@@ -125,7 +125,7 @@ const MathPuzzleGame = () => {
   };
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-xl p-8"> {/* カードのサイズを少し大きく */}
       {/* ヘッダー部分 */}
       <div className="text-center mb-6">
         <h1 className="text-3xl font-bold mb-3 text-slate-800">CALCULATION 10！</h1>
@@ -200,32 +200,36 @@ const MathPuzzleGame = () => {
       </AnimatePresence>
 
       {/* 式を表示するエリア */}
-      <div className="mb-6">
-        <p className="text-lg font-semibold mb-2 text-slate-700">Formula:</p>
-        <motion.div 
-          className={`h-14 rounded-lg flex items-center justify-center text-xl font-mono border-2 transition-colors duration-300 ${
-            isCorrect 
-              ? "bg-green-100 border-green-500 text-green-700" 
-              : "bg-white border-slate-200 text-slate-900"
-          }`}
-          animate={isCorrect ? {
-            scale: [1, 1.02, 1],
-            transition: { duration: 0.3 }
-          } : {}}
-        >
-          {expression || (
-            <span className="text-slate-400">
-              Make 10 using all numbers.
-            </span>
-          )}
-        </motion.div>
+      <div className="mb-8">
+        <div className="bg-slate-50 p-4 rounded-xl">
+          <p className="text-lg font-semibold mb-2 text-slate-700">Formula:</p>
+          <motion.div 
+            className={`min-h-[60px] rounded-lg flex items-center justify-center text-2xl font-mono border-2 transition-colors duration-300 p-4 ${
+              isCorrect 
+                ? "bg-green-100 border-green-500 text-green-700" 
+                : "bg-white border-slate-200 text-slate-900"
+            }`}
+            animate={isCorrect ? {
+              scale: [1, 1.02, 1],
+              transition: { duration: 0.3 }
+            } : {}}
+          >
+            {expression || (
+              <span className="text-slate-400 text-xl">
+                Make 10 using all numbers
+              </span>
+            )}
+          </motion.div>
+        </div>
+        
+        {/* エラーメッセージ表示を改善 */}
         <AnimatePresence>
           {error && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="mt-2 text-red-500 text-sm text-center"
+              className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-center"
             >
               {error}
             </motion.div>
@@ -233,8 +237,8 @@ const MathPuzzleGame = () => {
         </AnimatePresence>
       </div>
 
-      {/* 数字ボタン */}
-      <div className="grid grid-cols-4 gap-3 mb-6">
+      {/* 数字ボタングリッド */}
+      <div className="grid grid-cols-4 gap-4 mb-8">
         {numbers.map((number, index) => (
           <motion.div
             key={index}
@@ -243,7 +247,7 @@ const MathPuzzleGame = () => {
             transition={{ delay: index * 0.1 }}
           >
             <Button
-              className={`h-16 text-2xl w-full ${
+              className={`h-20 text-3xl w-full ${
                 usedNumbers.includes(index) 
                   ? "bg-blue-300 hover:bg-blue-300" 
                   : "bg-blue-500 hover:bg-blue-600"
@@ -257,49 +261,54 @@ const MathPuzzleGame = () => {
         ))}
       </div>
 
-      {/* 演算子ボタン */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        {['+', '-', '×', '÷', '(', ')'].map((op, index) => (
-          <motion.div
-            key={op}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: index * 0.05 }}
-          >
-            <Button
-              className={
-                ['+', '-', '×', '÷'].includes(op) 
-                  ? "bg-green-500 hover:bg-green-600 w-full" 
-                  : "bg-purple-500 hover:bg-purple-600 w-full"
-              }
-              onClick={() => handleOperatorClick(op)}
-            >
-              {op}
-            </Button>
-          </motion.div>
-        ))}
+      {/* 演算子ボタン - 2行グリッドに変更 */}
+      <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="col-span-3 grid grid-cols-2 gap-4 mb-4">
+          {['+', '-', '×', '÷'].map((op) => (
+            <motion.div key={op}>
+              <Button
+                className="bg-green-500 hover:bg-green-600 w-full h-16 text-2xl"
+                onClick={() => handleOperatorClick(op)}
+              >
+                {op}
+              </Button>
+            </motion.div>
+          ))}
+        </div>
+        <div className="col-span-3 grid grid-cols-2 gap-4">
+          {['(', ')'].map((op) => (
+            <motion.div key={op}>
+              <Button
+                className="bg-purple-500 hover:bg-purple-600 w-full h-16 text-2xl"
+                onClick={() => handleOperatorClick(op)}
+              >
+                {op}
+              </Button>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
       {/* アクションボタン */}
       <div className="grid grid-cols-3 gap-4">
         <Button
-          className="bg-red-500 hover:bg-red-600 w-full"
+          className="bg-red-500 hover:bg-red-600 w-full h-14 text-lg font-bold"
           onClick={handleClear}
         >
           CLEAR
         </Button>
         <Button
-          className="bg-yellow-500 hover:bg-yellow-600 w-full"
+          className="bg-yellow-500 hover:bg-yellow-600 w-full h-14 text-lg font-bold"
           onClick={handleSkip}
         >
           SKIP (-5s)
         </Button>
         <Button
-          className="bg-blue-500 hover:bg-blue-600 w-full"
+          className="bg-blue-500 hover:bg-blue-600 w-full h-14 text-lg font-bold"
           onClick={handleCalculate}
           disabled={!expression}
         >
-          CALCULATE
+          CALC
         </Button>
       </div>
     </Card>
