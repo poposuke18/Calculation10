@@ -54,7 +54,6 @@ const MathPuzzleGame = () => {
     setError('');
     setUsedNumbers([]);
     setIsCorrect(false);
-    setTimeLeft(60); // 新しい問題が始まるたびにタイマーをリセット
   };
 
   useEffect(() => {
