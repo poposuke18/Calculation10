@@ -5,7 +5,25 @@ import { motion } from 'framer-motion';
 import Card from './Card';
 import Button from './Button';
 
-const HighScores = ({ scores, onClose }) => {
+const HighScores = ({ scores = [], onClose }) => {
+  if (!Array.isArray(scores)) {
+    console.error('Scores is not an array:', scores);
+    return (
+      <Card className="w-full max-w-md p-6">
+        <h2 className="text-2xl font-bold mb-6 text-center">High Scores</h2>
+        <p className="text-center text-gray-500 mb-6">No scores available</p>
+        <div className="text-center">
+          <Button
+            onClick={onClose}
+            className="bg-blue-500 hover:bg-blue-600"
+          >
+            Close
+          </Button>
+        </div>
+      </Card>
+    );
+  }
+
   return (
     <Card className="w-full max-w-md p-6">
       <h2 className="text-2xl font-bold mb-6 text-center">High Scores</h2>
