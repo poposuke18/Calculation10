@@ -18,6 +18,7 @@ const MathPuzzleGame = () => {
   const [skippedCount, setSkippedCount] = useState(0);
   const [timeLeft, setTimeLeft] = useState(90);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isCalculating, setIsCalculating] = useState(false);
 
   useEffect(() => {
     if (!isPlaying || timeLeft <= 0) return;
@@ -56,6 +57,7 @@ const MathPuzzleGame = () => {
     setError('');
     setUsedNumbers([]);
     setIsCorrect(false);
+    setIsCalculating(false); // 状態をリセット
   };
 
   useEffect(() => {
@@ -95,10 +97,14 @@ const MathPuzzleGame = () => {
   };
 
   const handleCalculate = () => {
+    if (isCalculating) return; // 計算中は追加の実行を防止
+    setIsCalculating(true);
+
     const usedNumbersInExpression = extractNumbersFromExpression(expression);
     
     if (!areArraysEqual(usedNumbersInExpression, numbers)) {
       setError('すべての数字を使用してください！');
+      setIsCalculating(false);
       return;
     }
   
@@ -106,6 +112,7 @@ const MathPuzzleGame = () => {
     
     if (result === null) {
       setError('無効な計算式です');
+      setIsCalculating(false);
       return;
     }
   
@@ -115,13 +122,13 @@ const MathPuzzleGame = () => {
       setError('');
       // 正解時に10秒追加
       setTimeLeft(prev => prev + 10);
-      setTimeout(() => {
-        setIsCorrect(false);
-        generateNumbers();
-      }, 1500);
+      // 即座に次の問題を生成
+      generateNumbers();
+      setIsCorrect(false);
     } else {
       setError(`結果は ${result} です。10にしてください。`);
     }
+    setIsCalculating(false);
   };
 
   return (
@@ -306,9 +313,9 @@ const MathPuzzleGame = () => {
         <Button
           className="bg-blue-500 hover:bg-blue-600 w-full h-14 text-lg font-bold"
           onClick={handleCalculate}
-          disabled={!expression}
+          disabled={!expression || isCalculating}
         >
-          CALC
+          {isCalculating ? "..." : "CALC"}
         </Button>
       </div>
     </Card>
