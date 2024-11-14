@@ -27,16 +27,7 @@ const MathPuzzleGame = () => {
 
 
 
-  useEffect(() => {
-    // ゲームが開始されていない場合は、タイマーを動かさない
-    if (!gameStarted || !isPlaying || timeLeft <= 0) return;
-
-    const timer = setInterval(() => {
-      setTimeLeft(prev => prev - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [timeLeft, isPlaying, gameStarted]);
+ 
 
   // ゲーム開始時の処理
   const handleStartGame = () => {
@@ -61,14 +52,15 @@ const MathPuzzleGame = () => {
   };
 
   useEffect(() => {
-    if (!isPlaying || timeLeft <= 0) return;
+    // ゲームが開始されていない場合は、タイマーを動かさない
+    if (!gameStarted || !isPlaying || timeLeft <= 0) return;
 
     const timer = setInterval(() => {
       setTimeLeft(prev => prev - 1);
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [timeLeft, isPlaying]);
+  }, [timeLeft, isPlaying, gameStarted]);
 
   // 時間切れ処理
   useEffect(() => {
