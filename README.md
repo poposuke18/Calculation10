@@ -1,56 +1,121 @@
-# 10を作ろう！(Make 10 Puzzle)
+# Calculation 10! (Make 10 Puzzle)
 
-## 🎮 ゲーム概要
+## 🎮 Game Overview
 
-4つの数字と四則演算を使って10を作る数学パズルゲームです。
-制限時間内にできるだけ多くの問題を解いていくチャレンジゲームとなっています。
+A mathematical puzzle game where you create 10 using four numbers and basic arithmetic operations.
+Challenge yourself to solve as many puzzles as possible within the time limit!
 
-## 🕹️ 遊び方
+## 🕹️ How to Play
 
-1. ゲーム開始時に90秒の制限時間が与えられます
-2. 表示される4つの数字をすべて使って、10を作ってください
-3. 使える演算子は `+`, `-`, `×`, `÷` と括弧 `()` です
-4. 正解すると:
-   - スコアが1点加算されます
-   - 制限時間が10秒延長されます
-5. スキップすると:
-   - 新しい数字が表示されます
-   - 制限時間が5秒減少します
-6. 制限時間が0になるとゲームオーバーです
+1. Start with a 90-second time limit
+2. Use all four given numbers to make 10
+3. Available operators: `+`, `-`, `×`, `÷` and brackets `()`
+4. When you solve correctly:
+   - Score +1 point
+   - Time +10 seconds
+5. When you skip:
+   - New numbers appear
+   - Time -5 seconds
+6. Game over when time reaches 0
 
-## 🚀 ルール詳細
+## 🚀 Game Features
 
-- すべての数字を必ず1回ずつ使う必要があります
-- 同じ数字を複数回使用することはできません
-- 0で割ることはできません
-- 数字の前に不必要な0を付けることはできません（例：01は不正）
+- Interactive start screen with game rules
+- Sound effects for actions
+  - Number/operator selection
+  - Correct answer
+  - Wrong answer
+  - Skip
+  - Clear
+- Sound toggle button
+- Confirmation dialog for restart
+- Animated UI elements
+- Real-time score tracking
+- Dynamic time management
 
-## 🛠️ 技術スタック
+## 🎯 Game Rules
 
-- Next.js
+- Must use all numbers exactly once
+- Cannot use the same number multiple times
+- Cannot divide by zero
+- Cannot add unnecessary zeros before numbers (e.g., 01 is invalid)
+
+## 🛠️ Technology Stack
+
+- Next.js 13
 - React
 - Tailwind CSS
 - Framer Motion
 
-## 🌐 デプロイ
+## 🔈 Sound Effects
 
-このゲームは[Vercel](https://calculation10.vercel.app)でホストされています。
+The game includes the following sound effects:
+- `click.mp3`: Playing when clicking numbers/operators
+- `correct.mp3`: Playing when the answer is correct
+- `fault.mp3`: Playing when the answer is wrong
+- `skip.mp3`: Playing when skipping
+- `clear.mp3`: Playing when clearing input
 
-## 🧑‍💻 開発者向け情報
+## 🔧 Project Structure
 
-### ローカルでの実行方法
+```
+your-project/
+├── app/
+│   ├── layout.js
+│   ├── page.js
+│   └── globals.css
+├── components/
+│   ├── Button.js
+│   ├── Card.js
+│   ├── ConfirmButton.js
+│   ├── MathPuzzleGame.js
+│   └── StartScreen.js
+├── contexts/
+│   └── SoundContext.js
+├── lib/
+│   └── mathUtils.js
+└── public/
+    └── sounds/
+        ├── click.mp3
+        ├── correct.mp3
+        ├── fault.mp3
+        ├── skip.mp3
+        └── clear.mp3
+```
+
+## 🌐 Deployment
+
+This game is hosted on [Vercel](https://calculation10.vercel.app)
+
+## 🧑‍💻 Development Guide
+
+### Local Setup
 
 ```bash
-# リポジトリのクローン
+# Clone the repository
 git clone https://github.com/poposuke18/Calculation10.git
 
-# 依存関係のインストール
+# Install dependencies
 npm install
 
-# 開発サーバーの起動
+# Start development server
 npm run dev
 ```
 
-### コントリビューション
+### Environment Setup
 
-バグ報告や機能改善の提案は、GitHubのIssueやPull Requestsで受け付けています。
+1. Create a `/public/sounds` directory
+2. Add the following sound files:
+   - click.mp3
+   - correct.mp3
+   - fault.mp3
+   - skip.mp3
+   - clear.mp3
+
+### Contributing
+
+Bug reports and feature improvement suggestions are welcome through GitHub Issues and Pull Requests.
+
+## 📝 License
+
+This project is open source and available under the [MIT License](LICENSE).
