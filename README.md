@@ -18,9 +18,13 @@ Challenge yourself to solve as many puzzles as possible within the time limit!
    - Time -5 seconds
 6. Game over when time reaches 0
 
-## 🚀 Game Features
+## 🎮 Game Features
 
 - Interactive start screen with game rules
+- High score system
+  - Record your score with 3-letter initials
+  - View top 10 high scores
+  - Persistent storage using Vercel KV
 - Sound effects for actions
   - Number/operator selection
   - Correct answer
@@ -33,34 +37,24 @@ Challenge yourself to solve as many puzzles as possible within the time limit!
 - Real-time score tracking
 - Dynamic time management
 
-## 🎯 Game Rules
+## 🏆 High Score System
 
-- Must use all numbers exactly once
-- Cannot use the same number multiple times
-- Cannot divide by zero
-- Cannot add unnecessary zeros before numbers (e.g., 01 is invalid)
+The game includes a high score system that:
+- Allows players to submit their scores with 3-letter initials
+- Displays the top 10 scores of all time
+- Automatically updates when new high scores are achieved
+- Persists scores across sessions using Vercel KV storage
 
-## 🛠️ Technology Stack
-
-- Next.js 13
-- React
-- Tailwind CSS
-- Framer Motion
-
-## 🔈 Sound Effects
-
-The game includes the following sound effects:
-- `click.mp3`: Playing when clicking numbers/operators
-- `correct.mp3`: Playing when the answer is correct
-- `fault.mp3`: Playing when the answer is wrong
-- `skip.mp3`: Playing when skipping
-- `clear.mp3`: Playing when clearing input
+[Previous content remains the same...]
 
 ## 🔧 Project Structure
 
 ```
 your-project/
 ├── app/
+│   ├── api/
+│   │   └── scores/
+│   │       └── route.js
 │   ├── layout.js
 │   ├── page.js
 │   └── globals.css
@@ -68,7 +62,9 @@ your-project/
 │   ├── Button.js
 │   ├── Card.js
 │   ├── ConfirmButton.js
+│   ├── HighScores.js
 │   ├── MathPuzzleGame.js
+│   ├── ScoreInput.js
 │   └── StartScreen.js
 ├── contexts/
 │   └── SoundContext.js
@@ -82,6 +78,16 @@ your-project/
         ├── skip.mp3
         └── clear.mp3
 ```
+
+## 🛠️ Environment Setup
+
+1. Create a Vercel KV database instance
+2. Set up the following environment variables:
+   ```
+   KV_URL=
+   KV_REST_API_URL=
+   KV_REST_API_TOKEN=
+   ```
 
 ## 🌐 Deployment
 

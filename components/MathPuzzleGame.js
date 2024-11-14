@@ -6,6 +6,7 @@ import StartScreen from './StartScreen';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSound } from '../contexts/SoundContext';
 import Button from './Button';
+import ScoreInput from './ScoreInput';
 import Card from './Card';
 import { evaluateExpression, extractNumbersFromExpression, areArraysEqual } from '../lib/mathUtils';
 import ConfirmButton from './ConfirmButton';
@@ -24,10 +25,7 @@ const MathPuzzleGame = () => {
   const [isCalculating, setIsCalculating] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const { isSoundEnabled, playSound, toggleSound } = useSound();
-
-
-
- 
+  const [showScoreInput, setShowScoreInput] = useState(false);
 
   // ゲーム開始時の処理
   const handleStartGame = () => {
@@ -51,6 +49,23 @@ const MathPuzzleGame = () => {
     setIsCorrect(false);
   };
 
+  const handleScoreSubmit = async (name) => {
+    try {
+      await fetch('/api/scores', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, score }),
+      });
+      
+      setShowScoreInput(false);
+      handleRestart();
+    } catch (error) {
+      console.error('Failed to submit score:', error);
+    }
+  };
+
   useEffect(() => {
     // ゲームが開始されていない場合は、タイマーを動かさない
     if (!gameStarted || !isPlaying || timeLeft <= 0) return;
@@ -66,8 +81,7 @@ const MathPuzzleGame = () => {
   useEffect(() => {
     if (timeLeft <= 0) {
       setIsPlaying(false);
-      // ゲームオーバー時の処理
-      alert(`ゲームオーバー！\nスコア: ${score}`);
+      setShowScoreInput(true);
     }
   }, [timeLeft]);
 
@@ -174,7 +188,8 @@ const MathPuzzleGame = () => {
       {!gameStarted ? (
         <StartScreen onStartGame={handleStartGame} />
       ) : (
-        <Card className="w-full max-w-xl p-8">
+        <>
+          <Card className="w-full max-w-xl p-8">
           <div className="text-center mb-6 relative">
             {/* リスタートボタンを左側に配置 */}
             <div className="absolute left-0 top-1">
@@ -412,7 +427,18 @@ const MathPuzzleGame = () => {
         </Button>
       </div>
     </Card>
-    )}
+    
+    <AnimatePresence>
+            {showScoreInput && (
+              <ScoreInput
+                score={score}
+                onSubmit={handleScoreSubmit}
+                onClose={handleRestart}
+              />
+            )}
+          </AnimatePresence>
+        </>
+      )}
     </AnimatePresence>
   );
 };

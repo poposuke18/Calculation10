@@ -2,18 +2,43 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useSound } from '../contexts/SoundContext';
+import HighScores from './HighScores';
 import Button from './Button';
 import Card from './Card';
 
 const StartScreen = ({ onStartGame }) => {
-  const { isSoundEnabled, toggleSound } = useSound();
+    const [showHighScores, setShowHighScores] = useState(false);
+    const [scores, setScores] = useState([]);
+    const { isSoundEnabled, toggleSound } = useSound();
+  
+    // ハイスコアを取得
+    useEffect(() => {
+      const fetchScores = async () => {
+        try {
+          const response = await fetch('/api/scores');
+          const data = await response.json();
+          setScores(data);
+        } catch (error) {
+          console.error('Failed to fetch scores:', error);
+        }
+      };
+  
+      fetchScores();
+    }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0 }}
-    >
+    <AnimatePresence mode="wait">
+      {showHighScores ? (
+        <HighScores
+          scores={scores}
+          onClose={() => setShowHighScores(false)}
+        />
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+        >
       <Card className="w-full max-w-xl p-8 text-center">
         <div className="relative">
           {/* Sound Toggle Button */}
@@ -100,19 +125,26 @@ const StartScreen = ({ onStartGame }) => {
           </div>
         </div>
 
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Button
-            onClick={onStartGame}
-            className="bg-blue-500 hover:bg-blue-600 w-64 h-16 text-xl"
-          >
-            START GAME
-          </Button>
+        
+          <div className="flex justify-center gap-4">
+              <Button
+                onClick={onStartGame}
+                className="bg-blue-500 hover:bg-blue-600 w-40 h-16 text-xl"
+              >
+                START GAME
+              </Button>
+              
+              <Button
+                onClick={() => setShowHighScores(true)}
+                className="bg-green-500 hover:bg-green-600 w-40 h-16 text-xl"
+              >
+                HIGH SCORES
+              </Button>
+            </div>
+          </Card>
         </motion.div>
-      </Card>
-    </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
